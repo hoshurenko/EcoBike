@@ -42,13 +42,12 @@ public class Application {
             try {
                 option = Integer.parseInt(optionString); // thrown where illegal type
             } catch (RuntimeException e) {
-//                e.printStackTrace();
                 println("Incorrect input! Try again.");
-                continue;
+                continue; // return to main menu
             }
 
             switch (option) {
-                case 1: //show the entire EcoBike catalog
+                case 1: // show the entire EcoBike catalog
                     bikes.forEach(System.out::println);
                     break;
                 case 2: // add a new folding bike
@@ -83,23 +82,21 @@ public class Application {
     private void stopTheProgram() {
         if (bikeCatalog.hasUnsavedData()) {
             while (true) {
-
+                println("Do you want to save changes? (Y/N):");
+                String exitOption = scanner.next();
+                if (exitOption.toUpperCase().equals("Y")) {
+                    bikeCatalog.save();
+                    println("Changes saved.\n" +
+                            "Bye.");
+                    return;
+                } else if (exitOption.toUpperCase().equals("N")) {
+                    println("You exit the program without saving changes!\n" +
+                            "Bye.");
+                    return;
+                } else
+                    println("Incorrect input. Please, enter \" y/Y \" or \" n/N \"");
             }
-        }
-        while (true) {
-            println("Do you want to save changes? (Y/N):");
-            String exitOption = scanner.next();
-            if (exitOption.toUpperCase().equals("Y")) {
-                bikeCatalog.save();
-                println("Changes saved. \nBye.");
-                return;
-            } else if (exitOption.toUpperCase().equals("N")) {
-                println("You exit the program without saving changes! \nBye.");
-                return;
-            } else {
-                println("Incorrect input. Please, enter \" y/Y \" or \" n/N \"");
-            }
-        }
+        } else println("Bye.");
     }
 
     private void search() {
@@ -121,7 +118,7 @@ public class Application {
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
                 println("Enter the availability of lights at front and back (TRUE/FALSE) or ENTER to skip: ");
                 String hasLightsString = scanner.next();
-                Boolean hasLights = hasLightsString.isEmpty() ? null : Boolean.parseBoolean(hasLightsString); // is this OK?
+                Boolean hasLights = hasLightsString.isEmpty() ? null : Boolean.parseBoolean(hasLightsString);
                 println("Enter a color or ENTER to skip: ");
                 String colorString = scanner.next();
                 String color = colorString.isEmpty() ? "" : colorString;
@@ -136,7 +133,7 @@ public class Application {
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
                 println("Enter the availability of lights at front and back (TRUE/FALSE) or ENTER to skip: ");
                 String hasLightsString = scanner.next();
-                Boolean hasLights = hasLightsString.isEmpty() || Boolean.parseBoolean(hasLightsString); // is this OK?
+                Boolean hasLights = hasLightsString.isEmpty() || Boolean.parseBoolean(hasLightsString);
                 println("Enter the battery capacity (in mAh) or ENTER to skip: ");
                 String batteryCapacityString = scanner.next();
                 int batteryCapacity = batteryCapacityString.isEmpty() ? 0 : Integer.parseInt(batteryCapacityString);
@@ -154,7 +151,7 @@ public class Application {
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
                 println("Enter the availability of lights at front and back (TRUE/FALSE) or ENTER to skip: ");
                 String hasLightsString = scanner.next();
-                Boolean hasLights = hasLightsString.isEmpty() || Boolean.parseBoolean(hasLightsString); // is this OK?
+                Boolean hasLights = hasLightsString.isEmpty() || Boolean.parseBoolean(hasLightsString);
                 println("Enter the battery capacity (in mAh) or ENTER to skip: ");
                 String batteryCapacityString = scanner.next();
                 int batteryCapacity = batteryCapacityString.isEmpty() ? 0 : Integer.parseInt(batteryCapacityString);
@@ -165,14 +162,14 @@ public class Application {
                 System.out.println(speedelecs.get(0)); // select first item of a particular brand
             }
         } catch (RuntimeException e) {
-            e.printStackTrace();
-            println("Incorrect input! Try again. " + e.getMessage());
+            println("Incorrect input! Try again.");
         }
     }
 
     private void addNewFoldingBike() {
         try {
-            println("Enter a brand of bike: ");
+            println("Adding a new FOLDING BIKE \n" +
+                    "Enter a brand of bike: ");
             String brand = scanner.next();
             println("Enter the size of the wheels (in inch): ");
             int wheelsSize = scanner.nextInt();
@@ -190,14 +187,14 @@ public class Application {
             bikeCatalog.addBike(foldingBike);
             println("Done! The new Folding Bike was added!");
         } catch (RuntimeException e) {
-            e.printStackTrace();
-            println("Incorrect input! Try again. " + e.getMessage());
+            println("Incorrect input! Try again.");
         }
     }
 
-    private void addNewSpeedelec() { //SPEEDELEC Booster; 35; 10900; false; 13200; green; 1279
+    private void addNewSpeedelec() {
         try {
-            println("Enter a brand of bike: ");
+            println("Adding a new SPEEDELEC \n" +
+                    "Enter a brand of bike: ");
             String brand = scanner.next();
             println("Enter the maximum (in km/h): ");
             int maxSpeed = scanner.nextInt();
@@ -219,9 +216,10 @@ public class Application {
         }
     }
 
-    private void addNewEBike() { //E-BIKE Lankeleisi; 65; 24200; false; 10000; black; 2399
+    private void addNewEBike() {
         try {
-            println("Enter a brand of bike: ");
+            println("Adding a new E-BIKE \n" +
+                    "Enter a brand of bike: ");
             String brand = scanner.next();
             println("Enter the maximum (in km/h): ");
             int maxSpeed = scanner.nextInt();

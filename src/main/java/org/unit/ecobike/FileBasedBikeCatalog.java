@@ -54,7 +54,7 @@ public class FileBasedBikeCatalog implements BikeCatalog {
 
     @Override
     public List<FoldingBike> searchFoldingBikeByParameters(String brand, double wheelsSize, int gears, int weight, Boolean hasLights, String color) {
-        List<FoldingBike> foldingBikes = getAll()
+        return getAll()
                 .stream()
                 .filter(bike -> bike instanceof FoldingBike)
                 .map(bike -> (FoldingBike) bike)
@@ -73,12 +73,11 @@ public class FileBasedBikeCatalog implements BikeCatalog {
                     return false;
                 })
                 .collect(Collectors.toList());
-        return foldingBikes;
     }
 
     @Override
     public List<EBike> searchEBikeByParameters(String brand, int maxSpeed, int weight, Boolean hasLights, int batteryCapacity, String color) {
-        List<EBike> EBikes = getAll()
+        return getAll()
                 .stream()
                 .filter(bike -> bike instanceof EBike)
                 .map(bike -> (EBike) bike)
@@ -97,12 +96,11 @@ public class FileBasedBikeCatalog implements BikeCatalog {
                     return false;
                 })
                 .collect(Collectors.toList());
-        return EBikes;
     }
 
     @Override
     public List<Speedelec> searchSpeedelecByParameters(String brand, int maxSpeed, int weight, Boolean hasLights, int batteryCapacity, String color) {
-        List<Speedelec> speedelecs = getAll()
+        return getAll()
                 .stream()
                 .filter(bike -> bike instanceof Speedelec)
                 .map(bike -> (Speedelec) bike)
@@ -122,14 +120,13 @@ public class FileBasedBikeCatalog implements BikeCatalog {
                     return false;
                 })
                 .collect(Collectors.toList());
-        return speedelecs;
     }
 
     @Override
     public void save() {
         List<String> strings = bikes
                 .stream()
-                .map(bike -> bike.serialize())
+                .map(Bike::serialize)
                 .collect(Collectors.toList());
         try {
             Files.write(path, strings);

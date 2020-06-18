@@ -22,8 +22,8 @@ public abstract class Bike {
     }
 
 
-    public static Bike parse(String data) {
-        String[] fields = data.split("; ");
+    public static Bike parse(String input) {
+        String[] fields = input.split("; ");
         if (fields[0].contains("SPEEDELEC")) {
             String brand = fields[0].replace("SPEEDELEC ", "");
             return new Speedelec(
@@ -55,7 +55,7 @@ public abstract class Bike {
                     fields[5],
                     Integer.parseInt(fields[6]));
         } else {
-            throw new RuntimeException("Couldn't parse: " + data);
+            throw new RuntimeException("Couldn't parse: " + input);
         }
 
     }
