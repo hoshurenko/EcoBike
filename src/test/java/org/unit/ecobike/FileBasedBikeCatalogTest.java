@@ -26,14 +26,10 @@ class FileBasedBikeCatalogTest {
         bikeCatalog.addBike(testBike);
         List<Bike> allBikes = bikeCatalog.getAll();
         assertTrue(allBikes.contains(testBike));
-
-//        boolean containsBike = allBikes
-//                .stream()
-//                .anyMatch(bike -> testBike.equals(bike));
     }
 
     @Test
-    void searchBikeByBrand() { //SPEEDELEC Booster; 35; 10900; false; 13200; green; 1279
+    void searchBikeByBrand() { //SPEEDELEC Booster; 35; 10900; false; 13200; green; 1279 - example of a bike
         BikeCatalog bikeCatalog = BikeCatalog.fromResource("ecobike.txt");
         List<Bike> bikes = bikeCatalog.searchByBrand("Booster");
         String brand = bikes.get(0).getBrand();
@@ -42,7 +38,7 @@ class FileBasedBikeCatalogTest {
     }
 
     @Test
-    void searchFoldingBikeByParameters() { // FOLDING BIKE Benetti; 24; 27; 11400; false; rose; 1009
+    void searchFoldingBikeByParameters() { // FOLDING BIKE Benetti; 24; 27; 11400; false; rose; 1009 - example of a bike
         BikeCatalog bikeCatalog = BikeCatalog.fromResource("ecobike.txt");
         FoldingBike foldingBike = bikeCatalog.searchFoldingBikeByParameters("Benetti", 24, 27, 11400, false, "rose").get(0);
         Bike testBike = new FoldingBike("Benetti", 24, 27, 11400, false, "rose", 1009);
@@ -50,7 +46,7 @@ class FileBasedBikeCatalogTest {
     }
 
     @Test
-    void searchSpeedelecByParameters() { // SPEEDELEC Booster; 35; 10900; false; 13200; green; 1279
+    void searchSpeedelecByParameters() { // SPEEDELEC Booster; 35; 10900; false; 13200; green; 1279 - example of a bike
         BikeCatalog bikeCatalog = BikeCatalog.fromResource("ecobike.txt");
         Speedelec speedelec = bikeCatalog.searchSpeedelecByParameters("Booster", 35, 10900, false, 13200, "green").get(0);
         Bike testBike = new Speedelec("Booster", 35, 10900, false, 13200, "green", 1279);
@@ -58,7 +54,7 @@ class FileBasedBikeCatalogTest {
     }
 
     @Test
-    void searchEBikeByParameters() { // E-BIKE Lankeleisi; 65; 24200; false; 10000; black; 2399
+    void searchEBikeByParameters() { // E-BIKE Lankeleisi; 65; 24200; false; 10000; black; 2399 - example of a bike
         BikeCatalog bikeCatalog = BikeCatalog.fromResource("ecobike.txt");
         EBike eBike = bikeCatalog.searchEBikeByParameters("Lankeleisi", 65, 24200, false, 10000, "black").get(0);
         Bike testBike = new EBike("Lankeleisi", 65, 24200, false, 10000, "black", 2399);

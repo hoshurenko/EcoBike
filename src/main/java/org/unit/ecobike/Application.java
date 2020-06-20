@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.Scanner;
 
 import static org.unit.ecobike.BikeCatalog.fromFile;
+import static org.unit.ecobike.Utils.require;
 
 public class Application {
     private final BikeCatalog bikeCatalog;
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in).useDelimiter("\\r\\n|[\\r\\n]");
 
 
     public Application(BikeCatalog bikeCatalog) {
@@ -109,12 +110,15 @@ public class Application {
             if (bikeFields[0].contains("FOLDING BIKE")) {
                 println("Enter the size of the wheels (in inch) or ENTER to skip: ");
                 String wheelsSizeString = scanner.next();
+                require(Integer.parseInt(wheelsSizeString) > 0, "The size of the wheels must be higher than 0.");
                 int wheelsSize = wheelsSizeString.isEmpty() ? 0 : Integer.parseInt(wheelsSizeString);
                 println("Enter the number of gears or ENTER to skip: ");
                 String gearsString = scanner.next();
+                require(Integer.parseInt(gearsString) > 0, "The number of gears must be higher than 0.");
                 int gears = gearsString.isEmpty() ? 0 : Integer.parseInt(gearsString);
                 println("Enter the weight of the bike (in grams) or ENTER to skip: ");
                 String weightString = scanner.next();
+                require(Integer.parseInt(weightString) > 0, "The weight of the bike must be higher than 0.");
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
                 println("Enter the availability of lights at front and back (TRUE/FALSE) or ENTER to skip: ");
                 String hasLightsString = scanner.next();
@@ -127,15 +131,18 @@ public class Application {
             } else if (bikeFields[0].contains("E-BIKE")) {
                 println("Enter the maximum speed (in km/h)  or ENTER to skip: ");
                 String maxSpeedString = scanner.next();
+                require(Integer.parseInt(maxSpeedString) > 0, "Meximum speed of the bike must be higher than 0.");
                 int maxSpeed = maxSpeedString.isEmpty() ? 0 : Integer.parseInt(maxSpeedString);
                 println("Enter the weight of the bike (in grams) or ENTER to skip: ");
                 String weightString = scanner.next();
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
+                require(Integer.parseInt(weightString) > 0, "The weight of the bike must be higher than 0.");
                 println("Enter the availability of lights at front and back (TRUE/FALSE) or ENTER to skip: ");
                 String hasLightsString = scanner.next();
                 Boolean hasLights = hasLightsString.isEmpty() || Boolean.parseBoolean(hasLightsString);
                 println("Enter the battery capacity (in mAh) or ENTER to skip: ");
                 String batteryCapacityString = scanner.next();
+                require(Integer.parseInt(batteryCapacityString) > 0, "The battery capacity must be higher than 0.");
                 int batteryCapacity = batteryCapacityString.isEmpty() ? 0 : Integer.parseInt(batteryCapacityString);
                 println("Enter a color or ENTER to skip: ");
                 String colorString = scanner.next();
@@ -145,15 +152,18 @@ public class Application {
             } else if (bikeFields[0].contains("SPEEDELEC")) {
                 println("Enter the maximum speed (in km/h)  or ENTER to skip: ");
                 String maxSpeedString = scanner.next();
+                require(Integer.parseInt(maxSpeedString) > 0, "Meximum speed of the bike must be higher than 0.");
                 int maxSpeed = maxSpeedString.isEmpty() ? 0 : Integer.parseInt(maxSpeedString);
                 println("Enter the weight of the bike (in grams) or ENTER to skip: ");
                 String weightString = scanner.next();
+                require(Integer.parseInt(weightString) > 0, "The weight of the bike must be higher than 0.");
                 int weight = weightString.isEmpty() ? 0 : Integer.parseInt(weightString);
                 println("Enter the availability of lights at front and back (TRUE/FALSE) or ENTER to skip: ");
                 String hasLightsString = scanner.next();
                 Boolean hasLights = hasLightsString.isEmpty() || Boolean.parseBoolean(hasLightsString);
                 println("Enter the battery capacity (in mAh) or ENTER to skip: ");
                 String batteryCapacityString = scanner.next();
+                require(Integer.parseInt(batteryCapacityString) > 0, "The battery capacity must be higher than 0.");
                 int batteryCapacity = batteryCapacityString.isEmpty() ? 0 : Integer.parseInt(batteryCapacityString);
                 println("Enter a color or ENTER to skip: ");
                 String colorString = scanner.next();
@@ -162,7 +172,7 @@ public class Application {
                 System.out.println(speedelecs.get(0)); // select first item of a particular brand
             }
         } catch (RuntimeException e) {
-            println("Incorrect input! Try again.");
+            println("Incorrect input! " + e.getMessage() + " Try again.");
         }
     }
 
@@ -171,23 +181,29 @@ public class Application {
             println("Adding a new FOLDING BIKE \n" +
                     "Enter a brand of bike: ");
             String brand = scanner.next();
+            require(brand.matches("[\\w.&%#@\\- ]+"), "Field \"brand\" has incorrect symbol(s).");
             println("Enter the size of the wheels (in inch): ");
             int wheelsSize = scanner.nextInt();
+            require(wheelsSize > 0, "The size of the wheels must be higher than 0.");
             println("Enter the number of gears: ");
             int gears = scanner.nextInt();
+            require(gears > 0, "The number of gears must be higher than 0.");
             println("Enter the weight of the bike (in grams): ");
             int weight = scanner.nextInt();
+            require(weight > 0, "The weight of the bike must be higher than 0.");
             println("Enter the availability of lights at front and back (TRUE/FALSE): ");
-            Boolean hasLights = scanner.nextBoolean();
+            boolean hasLights = scanner.nextBoolean();
             println("Enter a color: ");
             String color = scanner.next();
+            require(color.matches("[\\w ]+"), "Field \"color\" has incorrect symbol(s). ");
             println("Enter the price: ");
             int price = scanner.nextInt();
+            require(price > 0, "Price must be higher than 0.");
             Bike foldingBike = new FoldingBike(brand, wheelsSize, gears, weight, hasLights, color, price);
             bikeCatalog.addBike(foldingBike);
             println("Done! The new Folding Bike was added!");
         } catch (RuntimeException e) {
-            println("Incorrect input! Try again.");
+            println("Incorrect input! " + e.getMessage() + " Try again.");
         }
     }
 
@@ -196,18 +212,24 @@ public class Application {
             println("Adding a new SPEEDELEC \n" +
                     "Enter a brand of bike: ");
             String brand = scanner.next();
+            require(brand.matches("[\\w.&%#@\\- ]+"), "Field \"brand\" has incorrect symbol(s).");
             println("Enter the maximum (in km/h): ");
             int maxSpeed = scanner.nextInt();
+            require(maxSpeed > 0, "The maximum speed of the bike must be higher than 0.");
             println("Enter the weight of the bike (in grams): ");
             int weight = scanner.nextInt();
+            require(weight > 0, "The weight of the bike must be higher than 0.");
             println("Enter the availability of lights at front and back (TRUE/FALSE): ");
             Boolean hasLights = scanner.nextBoolean();
             println("Enter the battery capacity (in mAh): ");
             int batteryCapacity = scanner.nextInt();
+            require(batteryCapacity > 0, "The battery capacity of the bike must be higher than 0.");
             println("Enter a color: ");
             String color = scanner.next();
+            require(color.matches("[\\w ]+"), "Field \"color\" has incorrect symbol(s). ");
             println("Enter the price: ");
             int price = scanner.nextInt();
+            require(price > 0, "Price must be higher than 0.");
             Bike speedeklecBike = new Speedelec(brand, maxSpeed, weight, hasLights, batteryCapacity, color, price);
             bikeCatalog.addBike(speedeklecBike);
             println("Done! The new Speedelec was added!");
@@ -221,18 +243,23 @@ public class Application {
             println("Adding a new E-BIKE \n" +
                     "Enter a brand of bike: ");
             String brand = scanner.next();
-            println("Enter the maximum (in km/h): ");
+            require(brand.matches("[\\w.&%#@\\- ]+"), "Field \"brand\" has incorrect symbol(s).");
+            println("Enter the maximum speed (in km/h): ");
             int maxSpeed = scanner.nextInt();
+            require(maxSpeed > 0, "The maximum speed of the bike must be higher than 0.");
             println("Enter the weight of the bike (in grams): ");
             int weight = scanner.nextInt();
+            require(weight > 0, "The weight of the bike must be higher than 0.");
             println("Enter the availability of lights at front and back (TRUE/FALSE): ");
             Boolean hasLights = scanner.nextBoolean();
             println("Enter the battery capacity (in mAh): ");
             int batteryCapacity = scanner.nextInt();
             println("Enter a color: ");
             String color = scanner.next();
+            require(color.matches("[\\w ]+"), "Field \"color\" has incorrect symbol(s). ");
             println("Enter the price: ");
             int price = scanner.nextInt();
+            require(price > 0, "Price must be higher than 0.");
             Bike eBike = new EBike(brand, maxSpeed, weight, hasLights, batteryCapacity, color, price);
             bikeCatalog.addBike(eBike);
             println("Done! The new E-BIKE was added!");

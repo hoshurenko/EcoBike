@@ -46,9 +46,7 @@ public class FileBasedBikeCatalog implements BikeCatalog {
     public List<Bike> searchByBrand(String brand) {
         return bikes
                 .stream()
-                .filter(bike -> {
-                    return bike.getBrand().equals(brand);
-                })
+                .filter(bike -> bike.getBrand().equals(brand))
                 .collect(Collectors.toList());
     }
 
