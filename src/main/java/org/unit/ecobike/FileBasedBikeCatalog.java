@@ -61,7 +61,7 @@ public class FileBasedBikeCatalog implements BikeCatalog {
                         if (foldingBike.getWheelsSize() == wheelsSize || wheelsSize == 0) {
                             if (foldingBike.getGears() == gears || gears == 0) {
                                 if (foldingBike.getWeight() == weight || weight == 0) {
-                                    if (foldingBike.isHasLights() == hasLights || hasLights == null) { // is this correct? default == true
+                                    if (foldingBike.isHasLights() == hasLights || hasLights == null) {
                                         return foldingBike.getColor().equals(color) || color.isEmpty();
                                     }
                                 }
